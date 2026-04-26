@@ -2,15 +2,19 @@ import functools
 import random
 
 from app.data import FREE_SPACE, QUESTIONS
-from app.models import BingoLine, BingoSquareData
+from app.models import BingoLine, BingoSquareData, GameMode
 
 BOARD_SIZE = 5
 CENTER_INDEX = 12  # 5x5 grid, center is index 12 (row 2, col 2)
 
 
-def generate_board() -> list[BingoSquareData]:
-    """Generate a new 5x5 bingo board."""
+def generate_board(mode: GameMode = GameMode.BINGO) -> list[BingoSquareData]:
+    """Generate a new 5x5 bingo board or 24-item scavenger hunt list."""
     questions = iter(random.sample(QUESTIONS, 24))
+
+    if mode in (GameMode.SCAVENGER_HUNT, GameMode.CARD_DECK):
+        return [BingoSquareData(id=i, text=next(questions)) for i in range(24)]
+
     return [
         BingoSquareData(id=i, text=FREE_SPACE, is_marked=True, is_free_space=True)
         if i == CENTER_INDEX

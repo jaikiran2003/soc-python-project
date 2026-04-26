@@ -4,6 +4,12 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict
 
 
+class GameMode(StrEnum):
+    BINGO = "bingo"
+    SCAVENGER_HUNT = "scavenger_hunt"
+    CARD_DECK = "card_deck"
+
+
 class GameState(StrEnum):
     START = "start"
     PLAYING = "playing"

@@ -1,25 +1,88 @@
-<div id="game-container">
-<div class="flex flex-col items-center justify-center min-h-full p-6 bg-black">
-    <div class="text-center max-w-sm">
-        <h1 class="text-4xl font-bold text-yellow mb-2 glow">Soc Ops</h1>
-        <p class="text-lg text-green mb-8 glow">Social Bingo</p>
+<div id="game-container" class="relative overflow-hidden min-h-full">
+    <!-- Ambient Background Elements -->
+    <div class="ambient-glow ambient-glow-1"></div>
+    <div class="ambient-glow ambient-glow-2"></div>
 
-        <div class="bg-black rounded-xl p-6 shadow-xl border-2 border-accent mb-8 pixel-border">
-            <h2 class="font-semibold text-orange mb-3 glow">How to play</h2>
-            <ul class="text-left text-terminal text-sm space-y-2">
-                <li>• Find people who match the questions</li>
-                <li>• Tap a square when you find a match</li>
-                <li>• Get 5 in a row to win!</li>
-            </ul>
+    <!-- Prism WebGL Background -->
+    <div id="prism-container" class="absolute inset-0 z-0 pointer-events-none opacity-40"></div>
+
+    <div class="flex flex-col items-center justify-center min-h-full p-6 bg-transparent relative z-10">
+        <div class="text-center max-w-sm animate-fade-in">
+            <div class="relative inline-block mb-3 mt-1 w-full">
+                <div class="absolute inset-0 bg-white opacity-5 blur-2xl rounded-full"></div>
+                <h1 class="relative text-7xl font-display font-bold text-gradient-gemini tracking-tight drop-shadow-2xl">Soc Ops</h1>
+            </div>
+            
+            <p class="text-xl text-muted mb-12 leading-tight mt-1">Mingle, ask questions, and<br>connect with your team.</p>
+
+            <div class="bg-glass rounded-2xl p-8 shadow-xl border border-surface mb-10 text-left">
+                <h2 class="text-text mb-5 text-lg">How to play</h2>
+                <ul class="text-muted text-sm space-y-4">
+                    <li class="flex items-start">
+                        <div class="flex-shrink-0 flex items-center justify-center w-6 h-6 mr-7 mt-0.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </div>
+                        <span class="leading-snug">Find people in the room who match the questions on your board.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="flex-shrink-0 flex items-center justify-center w-6 h-6 mr-7 mt-0.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                        <span class="leading-snug">Tap a square when you find a match to mark it off.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="flex-shrink-0 flex items-center justify-center w-6 h-6 mr-7 mt-0.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </div>
+                        <span class="leading-snug">Get 5 squares in a row to win!</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <button
+                    hx-post="/start"
+                    hx-vals='{"mode": "bingo"}'
+                    hx-target="#game-container"
+                    hx-swap="outerHTML"
+                    class="btn-glass w-full py-4 rounded-xl font-bold text-lg shadow-lg">
+                    Classic Bingo
+                </button>
+                <button
+                    hx-post="/start"
+                    hx-vals='{"mode": "scavenger_hunt"}'
+                    hx-target="#game-container"
+                    hx-swap="outerHTML"
+                    class="btn-glass w-full py-4 rounded-xl font-bold text-lg shadow-lg">
+                    Scavenger Hunt
+                </button>
+                <button
+                    hx-post="/start"
+                    hx-vals='{"mode": "card_deck"}'
+                    hx-target="#game-container"
+                    hx-swap="outerHTML"
+                    class="btn-glass w-full py-4 rounded-xl font-bold text-lg shadow-lg">
+                    Card Deck Shuffle
+                </button>
+            </div>
         </div>
-
-        <button
-            hx-post="/start"
-            hx-target="#game-container"
-            hx-swap="outerHTML"
-            class="w-full bg-accent text-white font-semibold py-4 px-8 rounded-xl text-lg transition-all duration-150 hover:glow hover:shadow-xl">
-            Start Game
-        </button>
     </div>
 </div>
-</div>
+
+<script type="module">
+    import { initPrism } from '/static/js/prism.js';
+    const container = document.getElementById('prism-container');
+    if (container && !container.hasChildNodes()) {
+        window.__prismCleanup = initPrism(container, {
+            animationType: "rotate",
+            timeScale: 0.3,
+            height: 3.5,
+            baseWidth: 5.5,
+            scale: 2.5,
+            hueShift: 0,
+            colorFrequency: 1,
+            noise: 0.3,
+            glow: 1.2
+        });
+    }
+</script>

@@ -8,19 +8,18 @@
         hx-swap="outerHTML"
         {% endif %}
         {% if square.is_free_space %}disabled{% endif %}
-        class="relative flex items-center justify-center p-1 text-center border-2 border-accent rounded-xl transition-all duration-150 select-none min-h-[60px] text-xs leading-tight pixel-border
-        {%- if square.is_marked %}
-            {%- if is_winning %} bg-winning border-accent text-accent glow
-            {%- else %} bg-marked border-accent text-secondary glow
-            {%- endif %}
-        {%- else %} bg-black text-terminal hover:bg-accent active:bg-accent hover:glow
+        class="relative flex items-center justify-center p-2 text-center select-none min-h-[80px] text-xs leading-tight bingo-tile
+        {%- if square.is_marked %} marked
+            {%- if is_winning %} winning{% endif %}
         {%- endif %}
-        {%- if square.is_free_space %} font-bold text-sm{% endif %}"
+        {%- if square.is_free_space %} font-bold{% endif %}"
         aria-pressed="{{ 'true' if square.is_marked else 'false' }}"
         aria-label="{{ 'Free space' if square.is_free_space else square.text }}">
-        <span class="wrap-break-word hyphens-auto">{{ square.text }}</span>
+        <span class="wrap-break-word hyphens-auto text-text">{{ square.text }}</span>
         {% if square.is_marked and not square.is_free_space %}
-        <span class="absolute top-0.5 right-0.5 text-accent text-xs glow">✓</span>
+        <span class="absolute top-2 right-2 text-text">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </span>
         {% endif %}
     </button>
     {% endfor %}

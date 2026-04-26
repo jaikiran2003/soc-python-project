@@ -17,7 +17,7 @@ class TestHomePage:
     def test_home_contains_start_screen(self, client: TestClient):
         response = client.get("/")
         assert "Soc Ops" in response.text
-        assert "Start Game" in response.text
+        assert "Classic Bingo" in response.text
         assert "How to play" in response.text
 
     def test_home_sets_session_cookie(self, client: TestClient):
@@ -32,13 +32,19 @@ class TestStartGame:
         response = client.post("/start")
         assert response.status_code == 200
         assert "FREE SPACE" in response.text
-        assert "← Back" in response.text
+        assert "Soc Ops" in response.text
 
     def test_board_has_25_squares(self, client: TestClient):
         client.get("/")
         response = client.post("/start")
         # Count the toggle buttons (squares with hx-post="/toggle/")
         assert response.text.count('hx-post="/toggle/') == 24  # 24 + 1 free space
+
+    def test_start_scavenger_hunt_mode(self, client: TestClient):
+        client.get("/")
+        response = client.post("/start", data={"mode": "scavenger_hunt"})
+        assert response.status_code == 200
+        assert "FREE SPACE" not in response.text
 
 
 class TestToggleSquare:
@@ -57,7 +63,7 @@ class TestResetGame:
         client.post("/start")
         response = client.post("/reset")
         assert response.status_code == 200
-        assert "Start Game" in response.text
+        assert "Classic Bingo" in response.text
         assert "How to play" in response.text
 
 

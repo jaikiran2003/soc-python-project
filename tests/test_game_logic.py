@@ -14,6 +14,16 @@ class TestGenerateBoard:
         board = generate_board()
         assert len(board) == 25
 
+    def test_scavenger_hunt_board_has_24_squares(self):
+        from app.models import GameMode
+        board = generate_board(mode=GameMode.SCAVENGER_HUNT)
+        assert len(board) == 24
+
+    def test_scavenger_hunt_has_no_free_space(self):
+        from app.models import GameMode
+        board = generate_board(mode=GameMode.SCAVENGER_HUNT)
+        assert not any(sq.is_free_space for sq in board)
+
     def test_center_is_free_space(self):
         board = generate_board()
         center = board[CENTER_INDEX]

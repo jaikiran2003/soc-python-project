@@ -1,0 +1,19 @@
+<div class="flex flex-col gap-3 w-full pb-8">
+    {% for square in session.board %}
+    <button
+        hx-post="/toggle/{{ square.id }}"
+        hx-target="#game-container"
+        hx-swap="outerHTML"
+        class="flex items-center text-left p-4 rounded-xl border border-surface bg-surface/50 hover:bg-surface-hover backdrop-blur transition-all group {% if square.is_marked %}opacity-50{% endif %}"
+    >
+        <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center mr-4 transition-colors {% if square.is_marked %}border-text bg-text text-bg{% else %}border-muted group-hover:border-text{% endif %}">
+            {% if square.is_marked %}
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            {% endif %}
+        </div>
+        <span class="text-sm {% if square.is_marked %}line-through text-muted{% else %}text-text{% endif %}">
+            {{ square.text }}
+        </span>
+    </button>
+    {% endfor %}
+</div>

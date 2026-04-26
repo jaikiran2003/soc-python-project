@@ -1,14 +1,14 @@
 import uuid
 from pathlib import Path
 
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Form, Request, Response
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 
 from app.game_service import GameSession, get_session
-from app.models import GameState
+from app.models import GameMode, GameState
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -37,9 +37,20 @@ async def home(request: Request) -> Response:
 
 
 @app.post("/start", response_class=HTMLResponse)
-async def start_game(request: Request) -> Response:
+async def start_game(
+    request: Request, mode: GameMode = Form(GameMode.BINGO)
+) -> Response:
     session = _get_game_session(request)
-    session.start_game()
+    session.start_game(mode)
+    return templates.TemplateResponse(
+        request, "components/game_screen.html", {"session": session}
+    )
+
+
+@app.post("/next-card", response_class=HTMLResponse)
+async def next_card(request: Request) -> Response:
+    session = _get_game_session(request)
+    session.draw_next_card()
     return templates.TemplateResponse(
         request, "components/game_screen.html", {"session": session}
     )

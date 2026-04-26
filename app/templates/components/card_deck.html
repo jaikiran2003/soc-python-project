@@ -1,0 +1,23 @@
+<div class="flex flex-col items-center justify-center w-full max-w-sm mx-auto perspective-1000">
+    <div class="text-sm text-accent mb-4 font-bold tracking-widest uppercase text-center drop-shadow-[0_0_8px_rgba(209,213,219,0.8)] font-mono">Card {{ session.current_card_index + 1 }} of {{ session.board|length }}</div>
+    <button 
+        hx-post="/next-card" 
+        hx-target="#game-container" 
+        hx-swap="outerHTML"
+        class="animate-flip group relative w-full aspect-[3/4] bg-[#0a0a0c] rounded-lg shadow-[0_0_30px_rgba(66,133,244,0.3)] border border-[#4285f4] flex items-center justify-center p-8 transition-all hover:scale-[1.02] active:scale-95 overflow-hidden">
+        
+        <!-- Cyberpunk Grid Overlay -->
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(66,133,244,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(66,133,244,0.1)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none opacity-30"></div>
+        
+        <!-- Neon Scanlines & Edge Glows -->
+        <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-[#4285f4] to-transparent opacity-80"></div>
+        <div class="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-[#9b72cb] to-transparent opacity-80"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.25)_50%)] bg-[size:100%_4px] pointer-events-none opacity-20"></div>
+
+        <div class="relative z-10 text-2xl md:text-3xl font-display font-bold text-white text-center leading-snug drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">
+            {{ session.board[session.current_card_index].text }}
+        </div>
+        
+        <div class="absolute bottom-6 z-10 text-xs font-mono text-[#4285f4] uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-[0_0_5px_rgba(66,133,244,0.8)]">Init Next Sequence_</div>
+    </button>
+</div>
